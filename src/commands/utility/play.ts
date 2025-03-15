@@ -1,5 +1,5 @@
 
-import { Command } from "@/constants/command";
+import { Command } from "@/types/command";
 import { SlashCommandBuilder } from "discord.js";
 import { CommandInteraction } from "discord.js";
 

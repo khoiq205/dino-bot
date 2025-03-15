@@ -1,15 +1,15 @@
+import { Command } from './types/command';
 import { config } from 'dotenv';
 config();
 import { Client, Collection, GatewayIntentBits, Events, Message } from 'discord.js'
-import fs from 'node:fs';
-import path from 'node:path';
-import { Command } from './constants/command';
+import { deloy, getCommands } from './commands/deloy';
 const token = process.env.TOKEN;
 declare module 'discord.js' {
   export interface Client {
     commands: Collection<string, any>
   }
 }
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -22,46 +22,37 @@ const client = new Client({
 
 (async () => {
   client.commands = new Collection();
-  const foldersPath = path.join(__dirname, 'commands');
-  const commandFolders = fs.readdirSync(foldersPath);
-  for (const folder of commandFolders) {
-    const folderPath = path.join(foldersPath, folder);
-    const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.ts') || file.endsWith('.js'));
-    for (const file of commandFiles) {
-      const filePath = path.join(folderPath, file);
-      await import(filePath).then(module => {
-        const command: Command = module.default;
-        client.commands.set(command.data.name, command)
-      }).catch(error => {
-        console.log("Error when load module", error);
-      })
-    }
-  }
+  const commands = await getCommands();
+  commands.forEach(command =>{
+    client.commands.set(command.data.name,command)
+  })
 })()
 
 client.on(Events.ClientReady, () => {
   console.log("🏃‍♀️ Dinobot is online! 💨");
 });
 
-client.once("reconnecting", () => {
-  console.log("🔗 Reconnecting!");
-});
+// client.once("reconnecting", () => {
+//   console.log("🔗 Reconnecting!");
+// });
 
-client.once("disconnect", () => {
-  console.log("🛑 Disconnect!");
-});
-client.on(Events.MessageCreate, async (message: Message) => {
-  if (message.author.bot) return;
-  if (message.author.username == "thienvanphan") {
-    await message.reply("thằng lol phắc boi!🖕🖕🖕🖕");
-  }
-});
+// client.once("disconnect", () => {
+//   console.log("🛑 Disconnect!");
+// });
+// client.on(Events.MessageCreate, async (message: Message) => {
+//   if (message.author.bot) return;
+//   if (message.author.username == "thienvanphan") {
+//     await message.reply("thằng lol phắc boi!🖕🖕🖕🖕");
+//   }
+// });
 client.on(Events.InteractionCreate,async interaction=>{
   
  if (!interaction.isCommand()) return;
  const command = interaction.client.commands.get(interaction.commandName);
- console.log("command", command);
+ console.log("interaction", interaction);
  await command.execute(interaction);
   
 })
-client.login(token);
+client.login(token).then(()=>{
+  deloy(client);
+});
