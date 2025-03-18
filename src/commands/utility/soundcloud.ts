@@ -6,6 +6,8 @@ import { Command } from "@/types/command";
 import { entersState, joinVoiceChannel, VoiceConnectionStatus } from "@discordjs/voice";
 import { GuildMember, SlashCommandBuilder } from "discord.js";
 import { CommandInteraction } from "discord.js";
+import { createPlayMessagge } from "../messages/playMessage";
+import { Platform } from "@/types/song";
 
 const command: Command = {
     data: new SlashCommandBuilder()
@@ -61,7 +63,20 @@ const command: Command = {
                     return queueItem;
                 });
                 await server.addSongs(songs);
-                interaction.followUp(`Đã thêm danh sách phát ${playlist.title}`);
+                interaction.followUp({
+                    embeds: [
+                        createPlayMessagge({
+                            title: playlist.title,
+                            url: playlistUrl,
+                            author: playlist.author,
+                            thumnail: playlist.thumbnail,
+                            length: playlist.songs.length,
+                            platform: Platform.SOUND_CLOUD,
+                            type: 'Playlist',
+                            requester: interaction.member?.user.username as string
+                        })
+                    ]
+                });
             }
             else {
                 const song = await SoundCloudService.getTrackDetails(input);
@@ -70,7 +85,20 @@ const command: Command = {
                     requester: interaction.member?.user.username as string
                 }
                 await server.addSongs([queueItem]);
-                interaction.followUp(`Đã thêm [${song.title}] vào danh sách`);
+                interaction.followUp({
+                    embeds: [
+                        createPlayMessagge({
+                            title: song.title,
+                            url: song.url,
+                            author: song.author,
+                            thumnail: song.thumbnail,
+                            length: song.length,
+                            platform: Platform.SOUND_CLOUD,
+                            type: 'Song',
+                            requester: interaction.member?.user.username as string
+                        })
+                    ]
+                });
             }
         } catch (error) {
             console.log("Error", error);
