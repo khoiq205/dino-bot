@@ -5,10 +5,9 @@ import { CommandInteraction } from "discord.js";
 
 const command: Command = {
     data: new SlashCommandBuilder()
-        .setName('resume')
-        .setDescription('Replies with resume!'),
+        .setName('loop')
+        .setDescription('Replies with Pong!'),
     async execute(interaction: CommandInteraction) {
-        console.log('interaction resume',interaction);
         interaction.reply(`${this.data.name} đang phát triển`)
     }
 };

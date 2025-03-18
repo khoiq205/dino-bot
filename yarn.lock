@@ -569,9 +569,9 @@ diff@^4.0.1:
     libsodium-wrappers "^0.7.15"
     module-alias "^2.2.3"
     moment "^2.30.1"
+    play-dl "^1.9.7"
     reconlx "^2.5.6"
     scdl-core "^1.1.0"
-    ytdl-core "^4.11.5"
     ytpl "^2.3.0"
     ytsr "^3.8.4"
 
@@ -1044,7 +1044,7 @@ lowercase-keys@^2.0.0:
   resolved "https://registry.npmjs.org/lowercase-keys/-/lowercase-keys-2.0.0.tgz"
   integrity sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==
 
-m3u8stream@^0.8.4, m3u8stream@^0.8.6:
+m3u8stream@^0.8.4:
   version "0.8.6"
   resolved "https://registry.npmjs.org/m3u8stream/-/m3u8stream-0.8.6.tgz"
   integrity sha512-LZj8kIVf9KCphiHmH7sbFQTVe4tOemb202fWwvJwR9W5ENW/1hxJN6ksAWGhQgSBSa3jyWhnjKU1Fw1GaOdbyA==
@@ -1250,6 +1250,18 @@ picomatch@^2.0.4, picomatch@^2.2.1:
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
+play-audio@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.npmjs.org/play-audio/-/play-audio-0.5.2.tgz"
+  integrity sha512-ZAqHUKkQLix2Iga7pPbsf1LpUoBjcpwU93F1l3qBIfxYddQLhxS6GKmS0d3jV8kSVaUbr6NnOEcEMFvuX93SWQ==
+
+play-dl@^1.9.7:
+  version "1.9.7"
+  resolved "https://registry.npmjs.org/play-dl/-/play-dl-1.9.7.tgz"
+  integrity sha512-KpgerWxUCY4s9Mhze2qdqPhiqd8Ve6HufpH9mBH3FN+vux55qSh6WJKDabfie8IBHN7lnrAlYcT/UdGax58c2A==
+  dependencies:
+    play-audio "^0.5.2"
+
 prism-media@^1.3.5:
   version "1.3.5"
   resolved "https://registry.npmjs.org/prism-media/-/prism-media-1.3.5.tgz"
@@ -1354,7 +1366,7 @@ safe-buffer@~5.2.0:
   resolved "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sax@^1.1.3, sax@^1.2.4:
+sax@^1.2.4:
   version "1.4.1"
   resolved "https://registry.npmjs.org/sax/-/sax-1.4.1.tgz"
   integrity sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==
@@ -1695,15 +1707,6 @@ yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.npmjs.org/yn/-/yn-3.1.1.tgz"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
-
-ytdl-core@^4.11.5:
-  version "4.11.5"
-  resolved "https://registry.npmjs.org/ytdl-core/-/ytdl-core-4.11.5.tgz"
-  integrity sha512-27LwsW4n4nyNviRCO1hmr8Wr5J1wLLMawHCQvH8Fk0hiRqrxuIu028WzbJetiYH28K8XDbeinYW4/wcHQD1EXA==
-  dependencies:
-    m3u8stream "^0.8.6"
-    miniget "^4.2.2"
-    sax "^1.1.3"
 
 ytpl@^2.3.0:
   version "2.3.0"
