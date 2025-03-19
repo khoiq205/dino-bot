@@ -1,15 +1,17 @@
 
 import messages from "@/constants/messages";
-import { servers } from "@/models/Server";
+import { QueueItem, servers } from "@/models/Server";
 import { Command } from "@/types/command";
 import { AudioPlayerStatus } from "@discordjs/voice";
 import { SlashCommandBuilder } from "discord.js";
 import { CommandInteraction } from "discord.js";
+import { createPlayMessagge } from "../messages/playMessage";
+import { Song } from "@/types/song";
 
 const command: Command = {
     data: new SlashCommandBuilder()
-        .setName('pause')
-        .setDescription('Tạm dừng phát nhạc'),
+        .setName('nowplaying')
+        .setDescription('Lấy thông tin bài hát đang phát'),
     async execute(interaction: CommandInteraction) {
         await interaction.deferReply();
         const server = servers.get(interaction.guildId as string);
@@ -17,13 +19,21 @@ const command: Command = {
             await interaction.followUp(messages.joinVoiceChannel);
             return;
         }
-        if (server.audioPlayer.state.status === AudioPlayerStatus.Playing) {
-            server.pause();
-            await interaction.followUp(messages.paused);
+        const queueItem: undefined | QueueItem = server.playing;
+        if (queueItem) {
+            await interaction.followUp({
+                embeds: [
+                    createPlayMessagge({
+                        ...queueItem.song,
+                        type: 'Song',
+                        requester: queueItem.requester,
+                    })
+                ]
+            });
             return;
         }
         await interaction.followUp(messages.notPlaying);
+
     }
 };
-
 export default command;

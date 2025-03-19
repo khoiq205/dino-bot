@@ -7,7 +7,7 @@ export const createPlayMessagge = (payload: {
     title: string;
     url: string;
     author: string;
-    thumnail: string;
+    thumbnail: string;
     type: string;
     length: number;
     platform: Platform;
@@ -34,6 +34,6 @@ export const createPlayMessagge = (payload: {
         .setTitle(payload.title)
         .setURL(payload.url)
         .setAuthor({ name: `${messages.addedToQueue} ${payload.requester}` })
-        .setThumbnail(payload.thumnail)
+        .setThumbnail(payload.thumbnail)
         .addFields(author, length, type);
 }

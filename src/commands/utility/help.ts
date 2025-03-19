@@ -6,7 +6,7 @@ import { CommandInteraction } from "discord.js";
 const command: Command = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setDescription('Replies with Pong!'),
+        .setDescription('help'),
     async execute(interaction: CommandInteraction) {
         interaction.reply(`${this.data.name} đang phát triển`)
     }

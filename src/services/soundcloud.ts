@@ -2,7 +2,6 @@ import { soundCloudPlaylistRegex, soundCloudTrackRegex } from "@/constants/regex
 import { Playlist } from "@/types/playlist";
 import { Platform, Song } from "@/types/song";
 import { SoundCloud, Track } from "scdl-core";
-
 export const scdl = SoundCloud;
 export class SoundCloudService {
     public static async getTrackDetails(content: string): Promise<Song> {

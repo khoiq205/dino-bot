@@ -33,7 +33,7 @@ export const deloy = (client: Client): void => {
                 );
                 console.log(`Successfully reloaded ${(data as Array<any>).length} application (/) commands.`);
             } catch (error) {
-                console.log("Error when deloy command");
+                console.log("Error when deloy command", error);
 
             }
         }

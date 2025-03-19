@@ -7,11 +7,11 @@ import { CommandInteraction } from "discord.js";
 
 const command: Command = {
     data: new SlashCommandBuilder()
-        .setName('remove')
-        .setDescription('Xoá một bài hát trong hàng đợi')
+        .setName('jump')
+        .setDescription('Phát một bài bất kì trong hàng đợi')
         .addIntegerOption(option =>
             option.setName('position')
-                .setDescription('Nhập vị trí')
+                .setDescription('Nhập vị trí bài hát')
                 .setRequired(true)
         ) as SlashCommandBuilder,
     async execute(interaction: CommandInteraction) {
@@ -26,8 +26,9 @@ const command: Command = {
             await interaction.followUp(messages.invalidPosition);
             return;
         }
-        const target = await server.remove(input);
-        await interaction.followUp(`${messages.removed} ${target.song.title}`);
+        const target = await server.jump(input);
+        await interaction.followUp(`${messages.jumpedTo} ${target.song.title}`);
+
     }
 };
 

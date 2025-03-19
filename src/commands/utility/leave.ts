@@ -1,4 +1,6 @@
 
+import messages from "@/constants/messages";
+import { servers } from "@/models/Server";
 import { Command } from "@/types/command";
 import { SlashCommandBuilder } from "discord.js";
 import { CommandInteraction } from "discord.js";
@@ -6,9 +8,16 @@ import { CommandInteraction } from "discord.js";
 const command: Command = {
     data: new SlashCommandBuilder()
         .setName('leave')
-        .setDescription('Replies with Pong!'),
+        .setDescription('Ngắt kết nối bot khỏi kênh thoại'),
     async execute(interaction: CommandInteraction) {
-        interaction.reply(`${this.data.name} đang phát triển`)
+        await interaction.deferReply();
+        const server = servers.get(interaction.guildId as string);
+        if (!server) {
+            await interaction.followUp(messages.joinVoiceChannel);
+            return;
+        }
+        server.leave();
+        await interaction.followUp(messages.leaved)
     }
 };
 

@@ -1,14 +1,15 @@
-
+import messages from "@/constants/messages";
+import { servers } from "@/models/Server";
 import { Command } from "@/types/command";
-import { SlashCommandBuilder } from "discord.js";
-import { CommandInteraction } from "discord.js";
+import { SlashCommandBuilder, CommandInteraction } from "discord.js";
 
 const command: Command = {
     data: new SlashCommandBuilder()
-        .setName('jump')
-        .setDescription('Replies with Pong!'),
+        .setName('queue')
+        .setDescription('Xem hàng đợi'),
     async execute(interaction: CommandInteraction) {
-        interaction.reply(`${this.data.name} đang phát triển`)
+        await interaction.deferReply();
+        interaction.followUp("Tính năng đang phát triển")
     }
 };
 

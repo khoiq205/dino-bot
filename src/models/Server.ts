@@ -5,7 +5,7 @@ import {
     AudioPlayerStatus,
     createAudioPlayer,
     createAudioResource,
-    entersState, StreamType,
+    entersState,
     VoiceConnection,
     VoiceConnectionDisconnectReason,
     VoiceConnectionStatus
@@ -30,15 +30,7 @@ export class Server {
         this.guildId = guildId;
 
         this.voiceConnection.on("stateChange", async (oldState, newState) => {
-            console.log(`Trạng thái bot thay đổi: ${oldState.status} → ${newState.status}`);
-
             if (newState.status === VoiceConnectionStatus.Disconnected) {
-                console.log("🔴 Bot đã bị disconnect!",);
-                /*
-         Nếu websocket đã bị đóng với mã 4014 có 2 khả năng:
-         - Nếu nó có khả năng tự kết nối lại (có khả năng do chuyển kênh thoại), ta cho dảnh ra 5s để tìm hiểu và cho kết nối lại.
-         - Nếu bot bị kick khỏi kênh thoại, ta sẽ phá huỷ kết nối.
-               */
                 if (newState.reason === VoiceConnectionDisconnectReason.WebSocketClose
                 ) {
                     switch (newState.closeCode) {
@@ -98,6 +90,7 @@ export class Server {
         voiceConnection.subscribe(this.audioPlayer);
 
     }
+    //Rời kênh thoại và xoá server ra khỏi map
     public leave(): void {
         if (this.voiceConnection.state.status !== VoiceConnectionStatus.Destroyed) {
             this.voiceConnection.destroy();
@@ -109,6 +102,29 @@ export class Server {
         this.playing = undefined;
         this.queue = [];
         this.audioPlayer.stop();
+    }
+
+    //Tạm dừng bài hát đang phát
+    public pause(): void {
+        this.audioPlayer.pause();
+    }
+    //Tiếp tục bài hát đang tạm dừng
+    public resume(): void {
+        this.audioPlayer.unpause();
+    }
+    public skip(): void {
+        this.audioPlayer.stop();
+    }
+    public async jump(position: number): Promise<QueueItem> {
+        console.log(this.queue.length);
+        const target = this.queue[position - 1];
+        this.queue.splice(0, position - 1);
+        await this.play();
+        return target;
+    }
+    // Xoá bài hát trong queue
+    public remove(position: number): QueueItem {
+        return this.queue.splice(position - 1, 1)[0];
     }
     public async play(): Promise<any> {
         try {

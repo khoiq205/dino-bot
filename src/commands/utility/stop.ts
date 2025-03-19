@@ -7,8 +7,8 @@ import { CommandInteraction } from "discord.js";
 
 const command: Command = {
     data: new SlashCommandBuilder()
-        .setName('skip')
-        .setDescription('Qua bài hát tiếp theo'),
+        .setName('stop')
+        .setDescription('Xoá hàng đợi và dừng phát'),
     async execute(interaction: CommandInteraction) {
         await interaction.deferReply();
         const server = servers.get(interaction.guildId as string);
@@ -16,11 +16,7 @@ const command: Command = {
             await interaction.followUp(messages.joinVoiceChannel);
             return;
         }
-        if (server.queue.length > 0) {
-            server.skip();
-            await interaction.followUp(messages.skippedSong);
-            return;
-        }
+        server.stop();
         await interaction.followUp(messages.noSongsInQueue);
     }
 };
